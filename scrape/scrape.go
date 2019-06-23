@@ -1,6 +1,6 @@
 package scrape
 
-import "github.com/PuerkitoBio/goquery"
+import "strings"
 
 // Ingredient 材料と量
 type Ingredient struct {
@@ -19,30 +19,15 @@ type ScrapedRecipe struct {
 	Title       string       `json:"title"`
 	Ingredients []Ingredient `json:"ingredients"`
 	Directions  []Direction  `json:"directions"`
+	Err         string       `json:err`
 }
 
 func ScrapeRecipe(url string) ScrapedRecipe {
-	doc, _ := goquery.NewDocument(url)
-
-	scrapedRecipe := ScrapedRecipe{}
-	scrapedRecipe.Title = doc.Find(".recipe-title").Text()
-
-	ingredientSelection := doc.Find(".ingredient")
-	ingredient := Ingredient{}
-	ingredientSelection.Each(func(index int, s *goquery.Selection) {
-		ingredient.Name = s.Find(".name").Text()
-		ingredient.Amount = s.Find(".amount").Text()
-		scrapedRecipe.Ingredients = append(scrapedRecipe.Ingredients, ingredient)
-	})
-
-	directionSelection := doc.Find(".step")
-	direction := Direction{}
-	directionSelection.Each(func(index int, s *goquery.Selection) {
-		direction.Position = s.Find("h3").Text()
-		direction.Text = s.Find(".step_text").Text()
-		scrapedRecipe.Directions = append(scrapedRecipe.Directions, direction)
-	})
-
+	scrapedRecipe := ScrapedRecipe{Err: "Failed"}
+	if strings.Contains(url, "cookpad.com") && strings.Contains(url, "recipe") {
+		if !strings.Contains(url, "pro") {
+			scrapedRecipe = scrapeCookpad(url)
+		}
+	}
 	return scrapedRecipe
-
 }
