@@ -29,5 +29,10 @@ func ScrapeRecipe(url string) ScrapedRecipe {
 			scrapedRecipe = scrapeCookpad(url)
 		}
 	}
+
+	if strings.Contains(url, "park.ajinomoto.co.jp") && strings.Contains(url, "card") {
+		scrapedRecipe = scrapeAjinomoto(url)
+	}
+
 	return scrapedRecipe
 }
