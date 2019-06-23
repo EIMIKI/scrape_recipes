@@ -19,7 +19,7 @@ type ScrapedRecipe struct {
 	Title       string       `json:"title"`
 	Ingredients []Ingredient `json:"ingredients"`
 	Directions  []Direction  `json:"directions"`
-	Err         string       `json:err`
+	Err         string       `json:"err"`
 }
 
 func ScrapeRecipe(url string) ScrapedRecipe {
