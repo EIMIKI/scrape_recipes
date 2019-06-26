@@ -53,6 +53,7 @@ func cleanupScrapedRecipe(scrapedRecipe ScrapedRecipe) ScrapedRecipe {
 	return creanedScrapedRecipe
 }
 
+// ScrapeRecipe urlに合わせてスクレイピングを行う。
 func ScrapeRecipe(url string) ScrapedRecipe {
 	scrapedRecipe := ScrapedRecipe{Err: "Failed"}
 	if strings.Contains(url, "cookpad.com") && strings.Contains(url, "recipe") {
