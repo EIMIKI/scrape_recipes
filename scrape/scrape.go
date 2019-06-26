@@ -1,6 +1,9 @@
 package scrape
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // Ingredient 材料と量
 type Ingredient struct {
@@ -22,6 +25,34 @@ type ScrapedRecipe struct {
 	Err         string       `json:"err"`
 }
 
+func cleanupStr(str string) string {
+	str = strings.ReplaceAll(str, " ", "")
+	str = strings.ReplaceAll(str, "\n", "")
+	fmt.Println(str)
+	return str
+}
+
+// ScrapedRecipe以下の構造を変更するとここも追記しなきゃいけない...
+func cleanupScrapedRecipe(scrapedRecipe ScrapedRecipe) ScrapedRecipe {
+	creanedScrapedRecipe := ScrapedRecipe{}
+	creanedScrapedRecipe.Title = cleanupStr(scrapedRecipe.Title)
+
+	for _, ingredient := range scrapedRecipe.Ingredients {
+		ingredient.Amount = cleanupStr(ingredient.Amount)
+		ingredient.Name = cleanupStr(ingredient.Name)
+
+		creanedScrapedRecipe.Ingredients = append(creanedScrapedRecipe.Ingredients, ingredient)
+	}
+	for _, direction := range scrapedRecipe.Directions {
+		direction.Position = cleanupStr(direction.Position)
+		direction.Text = cleanupStr(direction.Text)
+
+		creanedScrapedRecipe.Directions = append(creanedScrapedRecipe.Directions, direction)
+	}
+
+	return creanedScrapedRecipe
+}
+
 func ScrapeRecipe(url string) ScrapedRecipe {
 	scrapedRecipe := ScrapedRecipe{Err: "Failed"}
 	if strings.Contains(url, "cookpad.com") && strings.Contains(url, "recipe") {
@@ -34,5 +65,5 @@ func ScrapeRecipe(url string) ScrapedRecipe {
 		scrapedRecipe = scrapeAjinomoto(url)
 	}
 
-	return scrapedRecipe
+	return cleanupScrapedRecipe(scrapedRecipe)
 }
