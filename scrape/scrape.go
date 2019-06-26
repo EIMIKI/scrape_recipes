@@ -1,7 +1,6 @@
 package scrape
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -28,7 +27,6 @@ type ScrapedRecipe struct {
 func cleanupStr(str string) string {
 	str = strings.ReplaceAll(str, " ", "")
 	str = strings.ReplaceAll(str, "\n", "")
-	fmt.Println(str)
 	return str
 }
 
