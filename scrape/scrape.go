@@ -64,5 +64,9 @@ func ScrapeRecipe(url string) ScrapedRecipe {
 		scrapedRecipe = scrapeAjinomoto(url)
 	}
 
+	if strings.Contains(url, "kikkoman.co.jp") && strings.Contains(url, "recipe") {
+		scrapedRecipe = scrapeKikkoman(url)
+	}
+
 	return cleanupScrapedRecipe(scrapedRecipe)
 }
