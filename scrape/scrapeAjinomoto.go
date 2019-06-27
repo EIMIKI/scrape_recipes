@@ -7,6 +7,7 @@ func scrapeAjinomoto(url string) ScrapedRecipe {
 
 	scrapedRecipe := ScrapedRecipe{}
 	scrapedRecipe.Title = doc.Find("h1").Text()
+	scrapedRecipe.Amount = doc.Find(".recipequantity_unit").Text()
 
 	ingredientSelection := doc.Find(".recipeMaterialList>dl")
 	ingredient := Ingredient{}

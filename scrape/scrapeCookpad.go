@@ -7,6 +7,7 @@ func scrapeCookpad(url string) ScrapedRecipe {
 
 	scrapedRecipe := ScrapedRecipe{}
 	scrapedRecipe.Title = doc.Find(".recipe-title").Text()
+	scrapedRecipe.Amount = doc.Find(".yield").Text()
 
 	ingredientSelection := doc.Find(".ingredient")
 	ingredient := Ingredient{}

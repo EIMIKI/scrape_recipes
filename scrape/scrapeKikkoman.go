@@ -2,6 +2,7 @@ package scrape
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -11,6 +12,7 @@ func scrapeKikkoman(url string) ScrapedRecipe {
 
 	scrapedRecipe := ScrapedRecipe{}
 	scrapedRecipe.Title = doc.Find("h1").Text()
+	scrapedRecipe.Amount = strings.Replace(doc.Find(".yield").Text(), "材料", "", -1)
 
 	ingredientSelection := doc.Find(".ingredient")
 	ingredient := Ingredient{}

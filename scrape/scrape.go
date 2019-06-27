@@ -19,6 +19,7 @@ type Direction struct {
 // ScrapedRecipe スクレイピングされたレシピデータ
 type ScrapedRecipe struct {
 	Title       string       `json:"title"`
+	Amount      string       `json:"amount"`
 	Ingredients []Ingredient `json:"ingredients"`
 	Directions  []Direction  `json:"directions"`
 	Err         string       `json:"err"`
@@ -34,6 +35,7 @@ func cleanupStr(str string) string {
 func cleanupScrapedRecipe(scrapedRecipe ScrapedRecipe) ScrapedRecipe {
 	creanedScrapedRecipe := ScrapedRecipe{}
 	creanedScrapedRecipe.Title = cleanupStr(scrapedRecipe.Title)
+	creanedScrapedRecipe.Amount = cleanupStr(scrapedRecipe.Amount)
 
 	for _, ingredient := range scrapedRecipe.Ingredients {
 		ingredient.Amount = cleanupStr(ingredient.Amount)
